@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'wisymobile.appspot.com',
     measurementId: 'G-Q43X3TBR17',
   );
+
 }

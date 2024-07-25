@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:wisy_mobile_challenge/src/presentation/retrieve_images/main.dart';
+import 'package:wisy_mobile_challenge/src/presentation/retrieve_images/main_page.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
