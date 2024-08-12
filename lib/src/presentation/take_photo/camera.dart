@@ -3,6 +3,7 @@ import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wisy_mobile_challenge/src/presentation/take_photo/camera_controller.dart';
+import 'package:wisy_mobile_challenge/src/utils/utils.dart';
 
 class Camera extends ConsumerWidget {
   const Camera({super.key});
@@ -43,10 +44,8 @@ class Camera extends ConsumerWidget {
           );
         },
         saveConfig: SaveConfig.photoAndVideo(
-          photoPathBuilder: () =>
-              ref.read(cameraControllerProvider).path(CaptureMode.photo),
-          videoPathBuilder: () =>
-              ref.read(cameraControllerProvider).path(CaptureMode.video),
+          photoPathBuilder: () => path(CaptureMode.photo),
+          videoPathBuilder: () => path(CaptureMode.video),
           initialCaptureMode: CaptureMode.photo,
         ),
       ),

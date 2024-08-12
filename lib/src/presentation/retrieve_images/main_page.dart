@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wisy_mobile_challenge/src/data/retrieve_images/firebase_images.dart';
 import 'package:wisy_mobile_challenge/src/domain/retrieve_images/image_firebase.dart';
+import 'package:wisy_mobile_challenge/src/presentation/retrieve_images/main_page_controller.dart';
 import 'package:wisy_mobile_challenge/src/presentation/take_photo/camera.dart';
 
 class MainApp extends StatelessWidget {
@@ -29,7 +29,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-        body: ref.watch(firebaseImage).when(
+        body: ref.watch(firebaseImageProvider).when(
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, stackTrace) => Center(
                   child: Text(error.toString()),
