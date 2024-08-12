@@ -4,19 +4,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:wisy_mobile_challenge/src/domain/retrieve_images/image_firebase.dart';
 import 'package:wisy_mobile_challenge/src/domain/upload_images/image_metadata.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class FirebaseRepositorie {
-  static Stream<List<ImageFirebase>> retrieveImages() {
-    final stream = FirebaseFirestore.instance
-        .collection('images')
-        .orderBy('timestamp')
-        .snapshots();
+part 'firebase_repository.g.dart';
+
+class FirebaseRepository {
+  FirebaseRepository(this.instance);
+  final FirebaseFirestore instance;
+
+  Stream<List<ImageFirebase>> retrieveImages() {
+    final stream =
+        instance.collection('images').orderBy('timestamp').snapshots();
     return stream.map((snapshot) => snapshot.docs
         .map((doc) => ImageFirebase.fromJson(doc.data()))
         .toList());
   }
 
-  static Future<String> uploadImage(String filePath) async {
+  Future<String> uploadImage(String filePath) async {
     Reference referenceRoot = FirebaseStorage.instance.ref();
     Reference referenceDirImages = referenceRoot.child('images');
 
@@ -34,9 +38,18 @@ class FirebaseRepositorie {
     }
   }
 
-  static void uploadImageMetadata(ImageMetadata image) {
-    CollectionReference collRef =
-        FirebaseFirestore.instance.collection('images');
-    collRef.add(image.toJson());
+  void addImage(ImageMetadata image) async {
+    CollectionReference collRef = instance.collection('images');
+    await collRef.add(image.toJson());
   }
+
+  void setImage(ImageMetadata image, String docId) async {
+    CollectionReference collRef = instance.collection('images');
+    await collRef.doc(docId).set(image.toJson());
+  }
+}
+
+@riverpod
+FirebaseRepository firebaseRepository(FirebaseRepositoryRef ref) {
+  return FirebaseRepository(FirebaseFirestore.instance);
 }

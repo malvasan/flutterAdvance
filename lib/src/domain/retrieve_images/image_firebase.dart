@@ -5,29 +5,6 @@ import 'package:flutter/foundation.dart';
 part 'image_firebase.freezed.dart';
 part 'image_firebase.g.dart';
 
-// class ImageFirebase {
-//   ImageFirebase(
-//       {required this.url,
-//       required this.orientation,
-//       required this.timestamp,
-//       required this.latitude,
-//       required this.longitude});
-//   final String? url;
-//   final String? orientation;
-//   final Timestamp timestamp;
-//   final String? latitude;
-//   final String? longitude;
-
-//   factory ImageFirebase.json(Map<String, dynamic> json) {
-//     return ImageFirebase(
-//         url: json['url'],
-//         orientation: json['orientation'],
-//         timestamp: json['timestamp'],
-//         latitude: json['latitude'],
-//         longitude: json['longitude']);
-//   }
-// }
-
 class TimestampSerializer implements JsonConverter<DateTime, dynamic> {
   const TimestampSerializer();
 
