@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wisy_mobile_challenge/firebase_options.dart';
 import 'package:wisy_mobile_challenge/src/presentation/retrieve_images/main_page.dart';
+import 'package:wisy_mobile_challenge/src/utils/observers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,5 +11,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const ProviderScope(child: MainApp()));
+  runApp(ProviderScope(
+    child: MainApp(),
+    observers: [MyObserver()],
+  ));
 }

@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'camera_controller.dart';
+part of 'firebase_auth.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$cameraControllerHash() => r'0a568e6594e3296998392d7f0554fb932165e0dd';
+String _$firebaseAuthenticationHash() =>
+    r'86c4b30d91e752aa2764ab04e339017434edcdc0';
 
-/// See also [CameraController].
-@ProviderFor(CameraController)
-final cameraControllerProvider =
-    AutoDisposeAsyncNotifierProvider<CameraController, String>.internal(
-  CameraController.new,
-  name: r'cameraControllerProvider',
+/// See also [firebaseAuthentication].
+@ProviderFor(firebaseAuthentication)
+final firebaseAuthenticationProvider =
+    Provider<FirebaseAuthentication>.internal(
+  firebaseAuthentication,
+  name: r'firebaseAuthenticationProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$cameraControllerHash,
+      : _$firebaseAuthenticationHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CameraController = AutoDisposeAsyncNotifier<String>;
+typedef FirebaseAuthenticationRef = ProviderRef<FirebaseAuthentication>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

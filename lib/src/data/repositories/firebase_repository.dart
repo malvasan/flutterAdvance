@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,6 +14,7 @@ class FirebaseRepository {
   final FirebaseFirestore instance;
 
   Stream<List<ImageFirebase>> retrieveImages() {
+    log('retrieve images');
     final stream =
         instance.collection('images').orderBy('timestamp').snapshots();
     return stream.map((snapshot) => snapshot.docs
@@ -38,18 +40,25 @@ class FirebaseRepository {
     }
   }
 
-  void addImage(ImageMetadata image) async {
+  Future<String> addImage(ImageMetadata image) async {
     CollectionReference collRef = instance.collection('images');
-    await collRef.add(image.toJson());
+    final doc = await collRef.add(image.toJson());
+    return doc.id;
   }
 
-  void setImage(ImageMetadata image, String docId) async {
+  Future<void> setImage(ImageMetadata image, String docId) async {
     CollectionReference collRef = instance.collection('images');
     await collRef.doc(docId).set(image.toJson());
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 FirebaseRepository firebaseRepository(FirebaseRepositoryRef ref) {
+  log('build: firebaseRepository');
+  ref.onDispose(() => log('dispose: firebaseRepository'));
+  ref.onCancel(() => log('cancel: firebaseRepository'));
+  ref.onResume(() => log('resume: firebaseRepository'));
+  ref.onAddListener(() => log('add listener: firebaseRepository'));
+  ref.onRemoveListener(() => log('remove listener: firebaseRepository'));
   return FirebaseRepository(FirebaseFirestore.instance);
 }

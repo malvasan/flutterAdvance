@@ -6,7 +6,7 @@ part of 'main_page_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$firebaseImageHash() => r'4da04ef26ebe6904160b63d676ffa27c1744cc2c';
+String _$firebaseImageHash() => r'f559013a3115c4c3d991bb793c9355f1d1d633ae';
 
 /// See also [firebaseImage].
 @ProviderFor(firebaseImage)

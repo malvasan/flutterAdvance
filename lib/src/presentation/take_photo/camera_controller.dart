@@ -1,38 +1,48 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:exif/exif.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wisy_mobile_challenge/src/data/repositories/firebase_repository.dart';
 import 'package:wisy_mobile_challenge/src/domain/upload_images/image_metadata.dart';
+import 'package:wisy_mobile_challenge/src/utils/utils.dart';
 
 part 'camera_controller.g.dart';
 
 @riverpod
-CameraController cameraController(CameraControllerRef ref) {
-  return CameraController(ref);
-}
+class CameraController extends _$CameraController {
+  @override
+  FutureOr<String> build() {
+    log('build: CameraController');
+    ref.onDispose(() => log('dispose: CameraController'));
+    ref.onCancel(() => log('cancel: CameraController'));
+    ref.onResume(() => log('resume: CameraController'));
+    ref.onAddListener(() => log('add listener: CameraController'));
+    ref.onRemoveListener(() => log('remove listener: CameraController'));
+    return '';
+  }
 
-class CameraController {
-  const CameraController(this.ref);
-  final Ref ref;
   Future<void> uploadImage(String filePath) async {
     final firebaseInstance = ref.read(firebaseRepositoryProvider);
-    final imageURL = await firebaseInstance.uploadImage(filePath);
 
-    final fileBytes = File(filePath).readAsBytesSync();
-    final rawData = await readExifFromBytes(fileBytes);
-    if (rawData.isNotEmpty) {
-      var data = rawData.map((key, value) => MapEntry(key, value.printable));
-      data['url'] = imageURL;
-      data['orientation'] = data['Image Orientation'] as String;
-      data['timestamp'] = data['Image DateTime'] as String;
-      data['latitude'] = data['GPS GPSLatitude'] as String;
-      data['longitude'] = data['GPS GPSLongitude'] as String;
+    state = const AsyncLoading();
 
-      final imageMetadata = ImageMetadata.fromJson(data);
+    state = await AsyncValue.guard(() async {
+      final imageURL = await firebaseInstance.uploadImage(filePath);
+      final fileBytes = File(filePath).readAsBytesSync();
 
-      firebaseInstance.addImage(imageMetadata);
-    }
+      final rawData = await readExifFromBytes(fileBytes);
+
+      if (rawData.isNotEmpty) {
+        var data = normalizeRawData(rawData, imageURL);
+
+        final imageMetadata = ImageMetadata.fromJson(data);
+
+        final docId = await firebaseInstance.addImage(imageMetadata);
+        // log('image uploaded: ');
+        return docId;
+      }
+      throw Exception();
+    });
   }
 }

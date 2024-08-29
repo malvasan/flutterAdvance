@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wisy_mobile_challenge/src/data/repositories/firebase_auth.dart';
 import 'package:wisy_mobile_challenge/src/domain/retrieve_images/image_firebase.dart';
 import 'package:wisy_mobile_challenge/src/presentation/retrieve_images/main_page_controller.dart';
+import 'package:wisy_mobile_challenge/src/presentation/sign_in_and_up/sign_in.dart';
 import 'package:wisy_mobile_challenge/src/presentation/take_photo/camera.dart';
+import 'package:wisy_mobile_challenge/src/presentation/take_photo/camera_controller.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -15,7 +20,7 @@ class MainApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         ),
-        home: HomePage(),
+        home: SignIn(),
       ),
     );
   }
@@ -28,25 +33,75 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(cameraControllerProvider, (_, state) {
+      var snackBarMessage = '';
+      log('Here Here main ');
+      // log(state.toString());
+      switch (state) {
+        case AsyncData _:
+          log('Here Here data ');
+          snackBarMessage = 'uploaded';
+          break;
+        case AsyncLoading _:
+          log('Here Here loading ');
+          snackBarMessage = 'is uploading';
+          break;
+        case AsyncError _:
+          snackBarMessage = 'not uploaded';
+          break;
+      }
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Image $snackBarMessage")));
+    });
+
+    return ImagesList();
+  }
+}
+
+class ImagesList extends ConsumerWidget {
+  const ImagesList({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         body: ref.watch(firebaseImageProvider).when(
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, stackTrace) => Center(
-                  child: Text(error.toString()),
+                  child: Column(
+                    children: [
+                      ElevatedButton(
+                          onPressed: () =>
+                              ref.invalidate(firebaseImageProvider),
+                          child: Text(error.toString()))
+                    ],
+                  ),
                 ),
             data: (images) {
               return Column(
                 children: [
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // ref.read(selectedPageNameProvider.state).state =
-                        //     'Second Page';
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Camera()));
-                      },
-                      child: const Text('Take Photo'),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Camera()));
+                        },
+                        child: const Text('Take Photo'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          ref
+                              .read(firebaseAuthenticationProvider)
+                              .instance
+                              .signOut();
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Sign Out'),
+                      ),
+                    ],
                   ),
                   Expanded(
                     child: ListView.builder(

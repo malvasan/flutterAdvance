@@ -7,12 +7,11 @@ part of 'firebase_repository.dart';
 // **************************************************************************
 
 String _$firebaseRepositoryHash() =>
-    r'5a137a3915d8dda38a019f053874fe61903fe58b';
+    r'5e9df085005dd6d2f277efee95f02ea1a0b6826e';
 
 /// See also [firebaseRepository].
 @ProviderFor(firebaseRepository)
-final firebaseRepositoryProvider =
-    AutoDisposeProvider<FirebaseRepository>.internal(
+final firebaseRepositoryProvider = Provider<FirebaseRepository>.internal(
   firebaseRepository,
   name: r'firebaseRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +21,6 @@ final firebaseRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef FirebaseRepositoryRef = AutoDisposeProviderRef<FirebaseRepository>;
+typedef FirebaseRepositoryRef = ProviderRef<FirebaseRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

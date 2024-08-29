@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wisy_mobile_challenge/src/utils/camera_utils.dart';
+import 'package:wisy_mobile_challenge/src/utils/utils.dart';
 
 part 'image_metadata.freezed.dart';
 part 'image_metadata.g.dart';
