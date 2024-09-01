@@ -2,15 +2,15 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wisy_mobile_challenge/src/data/repositories/firebase_auth.dart';
+import 'package:wisy_mobile_challenge/src/data/repositories/auth.dart';
 import 'package:wisy_mobile_challenge/src/domain/retrieve_images/image_firebase.dart';
 import 'package:wisy_mobile_challenge/src/presentation/retrieve_images/main_page_controller.dart';
 import 'package:wisy_mobile_challenge/src/presentation/sign_in_and_up/sign_in.dart';
 import 'package:wisy_mobile_challenge/src/presentation/take_photo/camera.dart';
 import 'package:wisy_mobile_challenge/src/presentation/take_photo/camera_controller.dart';
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +20,14 @@ class MainApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         ),
-        home: SignIn(),
+        home: const SignIn(),
       ),
     );
   }
 }
 
-class HomePage extends ConsumerWidget {
-  const HomePage({
+class ImagesPresentationPage extends ConsumerWidget {
+  const ImagesPresentationPage({
     super.key,
   });
 
@@ -85,9 +85,9 @@ class ImagesList extends ConsumerWidget {
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Camera()));
+                            context,
+                            MaterialPageRoute(builder: (context) => Camera()),
+                          );
                         },
                         child: const Text('Take Photo'),
                       ),
@@ -119,6 +119,9 @@ class ImagesList extends ConsumerWidget {
             }));
   }
 }
+
+//400x400 row left right, mostrar la foto cuando haya touch en la misma pantalla , zoom
+// take photo an sign out (Floating action button)
 
 class ImagesUploaded extends StatelessWidget {
   const ImagesUploaded({

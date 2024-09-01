@@ -1,26 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'firebase_repository.dart';
+part of 'storage_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$firebaseRepositoryHash() =>
-    r'5e9df085005dd6d2f277efee95f02ea1a0b6826e';
+String _$storageRepositoryHash() => r'180cd7c43704a686638b50553b6b8579240b2382';
 
-/// See also [firebaseRepository].
-@ProviderFor(firebaseRepository)
-final firebaseRepositoryProvider = Provider<FirebaseRepository>.internal(
-  firebaseRepository,
-  name: r'firebaseRepositoryProvider',
+/// See also [storageRepository].
+@ProviderFor(storageRepository)
+final storageRepositoryProvider = Provider<StorageRepository>.internal(
+  storageRepository,
+  name: r'storageRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$firebaseRepositoryHash,
+      : _$storageRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef FirebaseRepositoryRef = ProviderRef<FirebaseRepository>;
+typedef StorageRepositoryRef = ProviderRef<StorageRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

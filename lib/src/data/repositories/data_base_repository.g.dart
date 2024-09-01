@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'camera_controller.dart';
+part of 'data_base_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$cameraControllerHash() => r'8ba9f2f312918ad92012666ec4df7667e4cecb56';
+String _$dataBaseRepositoryHash() =>
+    r'130759aea67d7a398d328a785b7551a2867c7dc8';
 
-/// See also [CameraController].
-@ProviderFor(CameraController)
-final cameraControllerProvider =
-    AutoDisposeAsyncNotifierProvider<CameraController, String>.internal(
-  CameraController.new,
-  name: r'cameraControllerProvider',
+/// See also [dataBaseRepository].
+@ProviderFor(dataBaseRepository)
+final dataBaseRepositoryProvider = Provider<DataBaseRepository>.internal(
+  dataBaseRepository,
+  name: r'dataBaseRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$cameraControllerHash,
+      : _$dataBaseRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CameraController = AutoDisposeAsyncNotifier<String>;
+typedef DataBaseRepositoryRef = ProviderRef<DataBaseRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

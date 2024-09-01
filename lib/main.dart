@@ -5,6 +5,7 @@ import 'package:wisy_mobile_challenge/firebase_options.dart';
 import 'package:wisy_mobile_challenge/src/presentation/retrieve_images/main_page.dart';
 import 'package:wisy_mobile_challenge/src/utils/observers.dart';
 
+//aca se ve el cambio en
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -12,7 +13,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(ProviderScope(
-    child: MainApp(),
     observers: [MyObserver()],
+    child: HomePage(),
   ));
 }

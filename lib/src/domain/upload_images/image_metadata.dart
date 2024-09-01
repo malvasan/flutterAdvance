@@ -44,12 +44,13 @@ class TimeSerializer implements JsonConverter<DateTime, dynamic> {
 
 @freezed
 class ImageMetadata with _$ImageMetadata {
-  const factory ImageMetadata(
-      {@UrlSerializer() required String? url,
-      @OrientationSerializer() required String? orientation,
-      @TimeSerializer() required DateTime timestamp,
-      required String? latitude,
-      required String? longitude}) = _ImageMetadata;
+  const factory ImageMetadata({
+    @UrlSerializer() required String? url,
+    @OrientationSerializer() required String? orientation,
+    @TimeSerializer() required DateTime timestamp,
+    required String? latitude,
+    required String? longitude,
+  }) = _ImageMetadata;
 
   factory ImageMetadata.fromJson(Map<String, Object?> json) =>
       _$ImageMetadataFromJson(json);

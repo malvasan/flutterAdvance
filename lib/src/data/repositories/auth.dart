@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'firebase_auth.g.dart';
+part 'auth.g.dart';
 
 class FirebaseAuthentication {
   FirebaseAuthentication(this.instance);
@@ -13,7 +13,9 @@ class FirebaseAuthentication {
       {required String email, required String password}) async {
     try {
       final credential = await instance.signInWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
       return credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -48,6 +50,10 @@ class FirebaseAuthentication {
   }
 }
 
+//tener 3 repositorios: auth,
+// provider, sign in(devolver user), sign up, funcion(Stream) return User or null que devuelva el estado actual del user(auth state changes), observar la funcion si usuario= MainPage, null=Login
+// data base repository, firebase_repositoruy
+//
 @Riverpod(keepAlive: true)
 FirebaseAuthentication firebaseAuthentication(FirebaseAuthenticationRef ref) {
   return FirebaseAuthentication(FirebaseAuth.instance);

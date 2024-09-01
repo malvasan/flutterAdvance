@@ -3,9 +3,17 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wisy_mobile_challenge/src/data/repositories/firebase_auth.dart';
+import 'package:wisy_mobile_challenge/src/data/repositories/auth.dart';
 import 'package:wisy_mobile_challenge/src/presentation/retrieve_images/main_page.dart';
 import 'package:wisy_mobile_challenge/src/presentation/sign_in_and_up/sign_up.dart';
+
+//forms
+//no correo mostar error
+//password con astericos y poder verlo
+//circular progress indicator en el sign y snack bar si falla
+//pulirlo
+//package gaps para los espacios
+//google auth
 
 class SignIn extends ConsumerStatefulWidget {
   const SignIn({super.key});
@@ -71,7 +79,7 @@ class _SignInState extends ConsumerState<SignIn> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => HomePage(),
+              builder: (context) => ImagesPresentationPage(),
             ));
       }
     } else {

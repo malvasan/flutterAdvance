@@ -23,7 +23,7 @@ class Camera extends ConsumerWidget {
               switch (mediaCapture.status) {
                 case MediaCaptureStatus.success:
                   log('function called: ');
-                  final valueAsync = ref
+                  ref
                       .read(cameraControllerProvider.notifier)
                       .uploadImage(capture.filePath);
                   // Image captured, perform additional code (e.g., get the file path)
