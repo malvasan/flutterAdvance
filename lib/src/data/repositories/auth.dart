@@ -9,14 +9,13 @@ class FirebaseAuthentication {
   FirebaseAuthentication(this.instance);
   final FirebaseAuth instance;
 
-  Future<User?> signIn(
-      {required String email, required String password}) async {
+  Future<void> signIn({required String email, required String password}) async {
     try {
-      final credential = await instance.signInWithEmailAndPassword(
+      log('called');
+      await instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         log('No user found for that email.');
@@ -26,17 +25,14 @@ class FirebaseAuthentication {
     } catch (e) {
       log(e.toString());
     }
-    return null;
   }
 
-  Future<User?> signUp(
-      {required String email, required String password}) async {
+  Future<void> signUp({required String email, required String password}) async {
     try {
-      final credential = await instance.createUserWithEmailAndPassword(
+      await instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         log('The password provided is too weak.');
@@ -46,7 +42,6 @@ class FirebaseAuthentication {
     } catch (e) {
       log(e.toString());
     }
-    return null;
   }
 }
 

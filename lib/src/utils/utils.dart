@@ -1,4 +1,5 @@
 import 'package:exif/exif.dart';
+import 'package:flutter/material.dart';
 
 DateTime convertStringToDateTime(String date) {
   date = date.replaceFirst(' ', 'T');
@@ -28,3 +29,5 @@ Map<String, String?> normalizeRawData(
   data['longitude'] = rawData['GPS GPSLongitude']?.printable;
   return data;
 }
+
+const loadingWidget = Center(child: CircularProgressIndicator());

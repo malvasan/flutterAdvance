@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'main_page_controller.dart';
+part of 'images_list_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
