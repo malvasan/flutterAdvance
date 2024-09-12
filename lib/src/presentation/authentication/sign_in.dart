@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:wisy_mobile_challenge/src/presentation/authentication/auth_controller.dart';
 import 'package:wisy_mobile_challenge/src/presentation/authentication/sign_up.dart';
+import 'package:wisy_mobile_challenge/src/presentation/authentication/controllers/login_controller.dart';
 import 'package:wisy_mobile_challenge/src/utils/utils.dart';
+
+import 'widgets/form_widgets.dart';
 
 //forms *
 //no correo mostar error *
@@ -13,6 +15,10 @@ import 'package:wisy_mobile_challenge/src/utils/utils.dart';
 //package gaps para los espacios *
 
 //google auth
+//imagenes un loading cuando estan loading(no flicker) *
+
+//refactorizar codigo duplicado, dentro de authentication/widgets(locales)/ dentro de la carpeta
+//
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -54,48 +60,27 @@ class _SignInState extends ConsumerState<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Log in',
-                  style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).primaryColor),
+                const Header(
+                  text: 'Log in',
                 ),
                 const Gap(20),
-                TextFormField(
-                  controller: emailController,
+                CustomFormField(
+                  emailController: emailController,
+                  textMessage: 'email',
                   autofocus: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter email';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Enter your email',
-                  ),
                 ),
                 const Gap(15),
-                TextFormField(
-                  controller: passwordController,
+                CustomFormField(
+                  emailController: passwordController,
+                  textMessage: 'password',
                   obscureText: hidePassword,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter password';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      border: const UnderlineInputBorder(),
-                      labelText: 'Enter your password',
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              hidePassword = !hidePassword;
-                            });
-                          },
-                          icon: const Icon(Icons.lock))),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      hidePassword = !hidePassword;
+                      setState(() {});
+                    },
+                    icon: const Icon(Icons.lock),
+                  ),
                 ),
                 const Gap(20),
                 LoginButton(
@@ -110,6 +95,17 @@ class _SignInState extends ConsumerState<LoginPage> {
                         builder: (context) => SignUp(),
                       )),
                   child: const Text("Sign up"),
+                ),
+                SizedBox(
+                  width: 120,
+                  child: IconButton(
+                    onPressed: () {
+                      ref.read(loginControllerProvider.notifier).signInGoogle();
+                    },
+                    icon: Image.asset(
+                      'lib/src/presentation/authentication/src/colourful-google-logo-on-white-background-free-vector.jpg',
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -146,7 +142,7 @@ class LoginButton extends ConsumerWidget {
     );
 
     final signInState = ref.watch(loginControllerProvider);
-    final isLoading = signInState is AsyncLoading<void>;
+    final isLoading = signInState.isLoading;
     return SizedBox(
       width: 120,
       child: FilledButton(

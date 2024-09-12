@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wisy_mobile_challenge/src/data/repositories/auth.dart';
 import 'package:wisy_mobile_challenge/src/domain/retrieve_images/image_firebase.dart';
-import 'package:wisy_mobile_challenge/src/presentation/authentication/auth_controller.dart';
+import 'package:wisy_mobile_challenge/src/presentation/authentication/controllers/auth_controller.dart';
 import 'package:wisy_mobile_challenge/src/presentation/retrieve_images/images_list_controller.dart';
 import 'package:wisy_mobile_challenge/src/presentation/authentication/sign_in.dart';
 import 'package:wisy_mobile_challenge/src/presentation/take_photo/camera.dart';
@@ -57,58 +57,81 @@ class ImagesList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-        body: ref.watch(firebaseImageProvider).when(
-            loading: () => loadingWidget,
-            error: (error, stackTrace) => Center(
-                  child: Column(
-                    children: [
-                      ElevatedButton(
-                          onPressed: () =>
-                              ref.invalidate(firebaseImageProvider),
-                          child: Text(error.toString()))
-                    ],
-                  ),
+      body: ref.watch(firebaseImageProvider).when(
+          loading: () => loadingWidget,
+          error: (error, stackTrace) => Center(
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                        onPressed: () => ref.invalidate(firebaseImageProvider),
+                        child: Text(error.toString()))
+                  ],
                 ),
-            data: (images) {
-              return Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Camera()),
-                          );
-                        },
-                        child: const Text('Take Photo'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          ref
-                              .read(firebaseAuthenticationProvider)
-                              .instance
-                              .signOut();
-                        },
-                        child: const Text('Sign Out'),
-                      ),
-                    ],
+              ),
+          data: (images) {
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: images.length,
+                      itemBuilder: (BuildContext content, int index) {
+                        return ImagesUploaded(
+                          image: images[index],
+                        );
+                      }),
+                )
+              ],
+            );
+          }),
+      floatingActionButton: ref.watch(firebaseImageProvider).when(
+        data: (data) {
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FloatingActionButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Camera()),
                   ),
-                  Expanded(
-                    child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: images.length,
-                        itemBuilder: (BuildContext content, int index) {
-                          return ImagesUploaded(
-                            image: images[index],
-                          );
-                        }),
-                  )
-                ],
-              );
-            }));
+                  backgroundColor: Theme.of(context).dialogBackgroundColor,
+                  heroTag: null,
+                  child: const Icon(Icons.photo_camera),
+                ),
+                FloatingActionButton(
+                  onPressed: () => ref
+                      .read(firebaseAuthenticationProvider)
+                      .instance
+                      .signOut(),
+                  backgroundColor: Theme.of(context).dialogBackgroundColor,
+                  heroTag: null,
+                  child: const Icon(Icons.logout),
+                ),
+              ],
+            ),
+          );
+        },
+        error: (error, stackTrace) {
+          return FloatingActionButton(
+            onPressed: () =>
+                ref.read(firebaseAuthenticationProvider).instance.signOut(),
+            heroTag: null,
+            child: const Icon(Icons.logout),
+          );
+        },
+        loading: () {
+          return FloatingActionButton(
+            onPressed: () =>
+                ref.read(firebaseAuthenticationProvider).instance.signOut(),
+            heroTag: null,
+            child: const Icon(Icons.logout),
+          );
+        },
+      ),
+    );
   }
 }
 
@@ -186,7 +209,7 @@ class _ImagesUploadedState extends State<ImagesUploaded> {
                                 contentPadding: const EdgeInsets.all(0),
                                 content: InteractiveViewer(
                                   panEnabled: false,
-                                  boundaryMargin: EdgeInsets.all(80),
+                                  boundaryMargin: const EdgeInsets.all(80),
                                   minScale: 0.5,
                                   maxScale: 2,
                                   child: AspectRatio(
@@ -204,6 +227,12 @@ class _ImagesUploadedState extends State<ImagesUploaded> {
                       child: Image.network(
                         widget.image.url!,
                         fit: BoxFit.fill,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return loadingWidget;
+                        },
                       ),
                     ),
                   ),
@@ -218,27 +247,6 @@ class _ImagesUploadedState extends State<ImagesUploaded> {
     );
   }
 }
-
-// OverlayPortal(
-//                         controller: _imageSelectedController,
-//                         child: AspectRatio(
-//                           aspectRatio: 1.0,
-//                           child: Image.network(
-//                             widget.image.url!,
-//                             fit: BoxFit.fill,
-//                           ),
-//                         ),
-//                         overlayChildBuilder: (context) {
-//                           return Center(
-//                             child: AspectRatio(
-//                               aspectRatio: 1.0,
-//                               child: Image.network(
-//                                 widget.image.url!,
-//                                 fit: BoxFit.fill,
-//                               ),
-//                             ),
-//                           );
-//                         }),
 
 class ImageAttributes extends StatelessWidget {
   const ImageAttributes({

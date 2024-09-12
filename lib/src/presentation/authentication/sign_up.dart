@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:wisy_mobile_challenge/src/presentation/authentication/auth_controller.dart';
+import 'package:wisy_mobile_challenge/src/presentation/authentication/controllers/registration_controller.dart';
+import 'package:wisy_mobile_challenge/src/presentation/authentication/widgets/form_widgets.dart';
 import 'package:wisy_mobile_challenge/src/utils/utils.dart';
 
 class SignUp extends ConsumerStatefulWidget {
@@ -43,48 +44,25 @@ class _SignInState extends ConsumerState<SignUp> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Sing up',
-                  style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).primaryColor),
-                ),
+                const Header(text: 'Sing up'),
                 const Gap(20),
-                TextFormField(
-                  controller: emailController,
+                CustomFormField(
+                  emailController: emailController,
+                  textMessage: 'email',
                   autofocus: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter email';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Enter your email',
-                  ),
                 ),
                 const Gap(15),
-                TextFormField(
-                  controller: passwordController,
+                CustomFormField(
+                  emailController: passwordController,
+                  textMessage: 'password',
                   obscureText: hidePassword,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter password';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      border: const UnderlineInputBorder(),
-                      labelText: 'Enter your password',
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              hidePassword = !hidePassword;
-                            });
-                          },
-                          icon: const Icon(Icons.lock))),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      hidePassword = !hidePassword;
+                      setState(() {});
+                    },
+                    icon: const Icon(Icons.lock),
+                  ),
                 ),
                 const Gap(20),
                 Row(
