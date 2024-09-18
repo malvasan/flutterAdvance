@@ -24,16 +24,16 @@ class LoginController extends _$LoginController {
     final firebaseAuth = ref.read(firebaseAuthenticationProvider).instance;
 
     try {
-      GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final googleUser = await GoogleSignIn().signIn();
 
-      GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      final googleAuth = await googleUser?.authentication;
 
-      AuthCredential credential = GoogleAuthProvider.credential(
+      final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
 
-      UserCredential user = await firebaseAuth.signInWithCredential(credential);
+      final user = await firebaseAuth.signInWithCredential(credential);
     } catch (e) {
       print(e);
     }

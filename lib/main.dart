@@ -5,7 +5,6 @@ import 'package:wisy_mobile_challenge/firebase_options.dart';
 import 'package:wisy_mobile_challenge/src/presentation/retrieve_images/images_list.dart';
 import 'package:wisy_mobile_challenge/src/utils/observers.dart';
 
-//aca se ve el cambio en
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
