@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wisy_mobile_challenge/src/data/repositories/auth.dart';
 
@@ -20,22 +18,12 @@ class LoginController extends _$LoginController {
     });
   }
 
+  //pasar a auth.dart
   Future<void> signInGoogle() async {
-    final firebaseAuth = ref.read(firebaseAuthenticationProvider).instance;
-
-    try {
-      final googleUser = await GoogleSignIn().signIn();
-
-      final googleAuth = await googleUser?.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      final user = await firebaseAuth.signInWithCredential(credential);
-    } catch (e) {
-      print(e);
-    }
+    final firebaseAuth = ref.read(firebaseAuthenticationProvider);
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      await firebaseAuth.signInGoogle();
+    });
   }
 }

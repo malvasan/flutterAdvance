@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wisy_mobile_challenge/src/exception/storage_exception.dart';
 
 part 'storage_repository.g.dart';
 
@@ -19,10 +20,17 @@ class StorageRepository {
         await referenceImageUploaded.putFile(File(filePath));
         return referenceImageUploaded.getDownloadURL();
       } else {
-        throw Exception("Error: Image do not exist in file system");
+        throw StorageException(
+          type: StorageExceptionType.imageNotLocalStorage,
+          message: 'Image do not exist in file system.',
+        );
       }
     } catch (e) {
-      throw Exception("Error: Image not uploaded");
+      throw StorageException(
+        type: StorageExceptionType.imageNotUplodaded,
+        message: 'Image not uploaded.',
+        error: e,
+      );
     }
   }
 }
