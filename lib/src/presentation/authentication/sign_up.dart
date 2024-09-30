@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -5,14 +6,15 @@ import 'package:wisy_mobile_challenge/src/presentation/authentication/controller
 import 'package:wisy_mobile_challenge/src/presentation/authentication/widgets/form_widgets.dart';
 import 'package:wisy_mobile_challenge/src/utils/utils.dart';
 
-class SignUp extends ConsumerStatefulWidget {
-  const SignUp({super.key});
+@RoutePage()
+class SignUpPage extends ConsumerStatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  ConsumerState<SignUp> createState() => _SignInState();
+  ConsumerState<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignInState extends ConsumerState<SignUp> {
+class _SignUpPageState extends ConsumerState<SignUpPage> {
   late TextEditingController emailController;
   late TextEditingController passwordController;
 
@@ -74,7 +76,7 @@ class _SignInState extends ConsumerState<SignUp> {
                       formKey: _formKey,
                     ),
                     FilledButton(
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () => context.router.back(),
                         child: const Text("Go back")),
                   ],
                 )

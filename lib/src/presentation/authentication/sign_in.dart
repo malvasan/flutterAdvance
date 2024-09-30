@@ -1,6 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:wisy_mobile_challenge/src/autoroute/autoroute.gr.dart';
+import 'package:wisy_mobile_challenge/src/exception/auth_exception.dart';
 import 'package:wisy_mobile_challenge/src/presentation/authentication/sign_up.dart';
 import 'package:wisy_mobile_challenge/src/presentation/authentication/controllers/login_controller.dart';
 import 'package:wisy_mobile_challenge/src/utils/utils.dart';
@@ -20,14 +23,15 @@ import 'widgets/form_widgets.dart';
 //refactorizar codigo duplicado, dentro de authentication/widgets(locales)/ dentro de la carpeta
 //
 
+@RoutePage()
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  ConsumerState<LoginPage> createState() => _SignInState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _SignInState extends ConsumerState<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   late TextEditingController emailController;
   late TextEditingController passwordController;
 
@@ -89,11 +93,7 @@ class _SignInState extends ConsumerState<LoginPage> {
                   formKey: _formKey,
                 ),
                 TextButton(
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignUp(),
-                      )),
+                  onPressed: () => context.router.push(const SignUpRoute()),
                   child: const Text("Sign up"),
                 ),
                 SizedBox(
@@ -134,8 +134,11 @@ class LoginButton extends ConsumerWidget {
       loginControllerProvider,
       (_, state) => state.whenOrNull(
         error: (error, stackTrace) {
+          final errorParser = error as AuthException;
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(error.toString())),
+            SnackBar(
+              content: Text(errorParser.message),
+            ),
           );
         },
       ),

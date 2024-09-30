@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wisy_mobile_challenge/src/autoroute/autoroute.gr.dart';
 import 'package:wisy_mobile_challenge/src/data/repositories/auth.dart';
 import 'package:wisy_mobile_challenge/src/domain/retrieve_images/image_firebase.dart';
 import 'package:wisy_mobile_challenge/src/presentation/authentication/controllers/auth_controller.dart';
@@ -9,6 +11,7 @@ import 'package:wisy_mobile_challenge/src/presentation/take_photo/camera.dart';
 import 'package:wisy_mobile_challenge/src/presentation/take_photo/camera_controller.dart';
 import 'package:wisy_mobile_challenge/src/utils/utils.dart';
 
+@RoutePage()
 class RootPage extends ConsumerWidget {
   const RootPage({super.key});
 
@@ -23,6 +26,7 @@ class RootPage extends ConsumerWidget {
   }
 }
 
+@RoutePage()
 class ImagesPresentationPage extends ConsumerWidget {
   const ImagesPresentationPage({
     super.key,
@@ -93,10 +97,7 @@ class ImagesList extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FloatingActionButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Camera()),
-                  ),
+                  onPressed: () => context.router.push(const CameraRoute()),
                   backgroundColor: Theme.of(context).dialogBackgroundColor,
                   heroTag: null,
                   child: const Icon(Icons.photo_camera),

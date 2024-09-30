@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wisy_mobile_challenge/src/data/repositories/data_base_repository.dart';
 import 'package:wisy_mobile_challenge/src/data/repositories/storage_repository.dart';
 import 'package:wisy_mobile_challenge/src/domain/upload_images/image_metadata.dart';
+import 'package:wisy_mobile_challenge/src/exception/storage_exception.dart';
 import 'package:wisy_mobile_challenge/src/utils/utils.dart';
 
 part 'camera_controller.g.dart';
@@ -22,6 +23,7 @@ class CameraController extends _$CameraController {
     state = await AsyncValue.guard(() async {
       final imageURL =
           await ref.read(storageRepositoryProvider).uploadImage(filePath);
+
       final fileBytes = File(filePath).readAsBytesSync();
 
       final rawData = await readExifFromBytes(fileBytes);
@@ -36,7 +38,10 @@ class CameraController extends _$CameraController {
 
         return docId;
       }
-      throw Exception();
+      throw StorageException(
+        type: StorageExceptionType.imageNotUplodaded,
+        message: 'Image not uploaded.',
+      );
     });
   }
 }

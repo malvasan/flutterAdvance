@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:better_open_file/better_open_file.dart';
 import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wisy_mobile_challenge/src/presentation/take_photo/camera_controller.dart';
 import 'package:wisy_mobile_challenge/src/utils/camera_utils.dart';
 
-class Camera extends ConsumerWidget {
-  const Camera({super.key});
+@RoutePage()
+class CameraPage extends ConsumerWidget {
+  const CameraPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,7 +41,7 @@ class Camera extends ConsumerWidget {
           return AwesomeCameraLayout(
             state: cameraState,
             topActions: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => context.router.back(),
                 child: const Icon(Icons.arrow_back)),
             onMediaTap: (mediaCapture) {
               OpenFile.open(mediaCapture.filePath);

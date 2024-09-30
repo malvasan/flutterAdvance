@@ -6,7 +6,7 @@ part of 'camera_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$cameraControllerHash() => r'8ba9f2f312918ad92012666ec4df7667e4cecb56';
+String _$cameraControllerHash() => r'1c1306edbd6ff86db459a212b3b1e388667a320f';
 
 /// See also [CameraController].
 @ProviderFor(CameraController)
